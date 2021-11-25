@@ -1,18 +1,38 @@
 # XZYComm
 
-#### 介绍
-串口通讯控件(delphi)
+#### Description
+Serial communication control for delphi
 
-#### 软件架构
-串口通讯组件修改自 小猪工作室 Small-Pig Team （中国台湾）的SPCOMM 串口通讯组件
+#### Software Architecture
+The serial communication component is modified from the SPCOMM serial communication component of Small-Pig Team (China Taiwan)
 
-最新版本 V3.1 支持delphi10.3
+The latest version V3.3 supports delphi11
 
+#### Installation
 
-#### 安装教程
+1. Configure XZYComm.inc to adapt to the delphi version
+2. Run !Build_XZYComm.cmd to compile
+3. Start delphi and mount the compiled bpl file
 
-1.  配置XZYComm.inc ,适应delphi版本
-2.  运行 !Build_XZYComm.cmd 进行编译
-3.  启动delphi，挂接编译好的bpl文件
-
-
+#### Version
+  - Version 2.51 2002/3/15
+    > Rewritten based on Spcomm 2.5.
+  - Version 2.6 2008/3/5
+    > Add Eof char, Evt char;
+  - Version 2.01 2015/5/13
+    > Fix the bug that Com10 and above cannot be opened
+  - Version 2.02 2018/6/16
+    > Correct the error message
+  - Version 3.0 2020/6/12
+    > Compatible with Delphi 10.3
+    > Upgrade to delphi 10.3.3
+    > Fix Parity setting bug, szInputBuffer is changed to @szInputBuffer;
+  - Version 3.01 2020/6/16
+    > Modify some error from source code, and can send data without
+    > lose any byte.Modified some error about the SENDEMPTY property,
+    > so it can be checked in applicaiton.
+  - Version 3.1 2020/6/17
+    > Add new property Connected;
+    > Compatible with Delphi XE and above, Char changed to AnsiChar
+  - Version 3.3 2022/11/17
+    > Compatible with Delphi 11

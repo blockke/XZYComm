@@ -39,7 +39,7 @@ echo section.
 echo.
 echo Once the configuration variables have been initialized and the
 echo !Build_XzyComm3.cmd saved, you can simply run !Build_XzyComm3.cmd file to rebuild
-echo xzyComm Components 3.
+echo xzyComm Components 3.3
 echo.
 echo IMPORTANT: It is recommended that you run this file as an administrator.
 echo.
@@ -62,45 +62,49 @@ set SysPath32="C:\Windows\SysWOW64"
 
 rem     Set VCLVersion to match version of Delphi/RAD Studio you are using:
 rem
-rem     RAD Studio RX10.3 (Delphi RX10.3)   VCLVersion="26"	Path="Studio\20.0"
-rem     RAD Studio RX10.2 (Delphi RX10.2)   VCLVersion="25"	Path="Studio\19.0"
-rem     RAD Studio RX10.1 (Delphi RX10.1)   VCLVersion="24"	Path="Studio\18.0"
-rem     RAD Studio RX10   (Delphi RX10)     VCLVersion="23"	Path="Studio\17.0"
-rem     RAD Studio XE8    (Delphi XE8)      VCLVersion="22"	Path="Studio\16.0"
-rem     RAD Studio XE7    (Delphi XE7)      VCLVersion="21"	Path="Studio\15.0"
-rem     RAD Studio XE6    (Delphi XE6)      VCLVersion="20"	Path="Studio\14.0"
-rem     RAD Studio XE5    (Delphi XE5)      VCLVersion="19"	Path="RAD Studio\12.0"
-rem     RAD Studio XE4    (Delphi XE4)      VCLVersion="18"	Path="RAD Studio\11.0"
-rem     RAD Studio XE3    (Delphi XE3)      VCLVersion="17"	Path="RAD Studio\10.0"
-rem     RAD Studio XE2    (Delphi XE2)      VCLVersion="16"	Path="RAD Studio\9.0"
-rem     RAD Studio XE     (Delphi XE)       VCLVersion="15"	Path="RAD Studio\8.0"
-rem     RAD Studio 2010   (Delphi 2010)     VCLVersion="14"	Path="RAD Studio\7.0"
-rem     RAD Studio 2009   (Delphi 2009)     VCLVersion="12"	Path=""
-rem     RAD Studio 2007 	(Delphi 2007)    	VCLVersion="11"   RS 2007 & BDS 2006 use same VCL
-rem     RAD Studio 2006 	(Delphi 2006)    	VCLVersion="10"   RS 2007 & BDS 2006 use same VCL
-rem     BDS 2006                         VCLVersion="10"
-rem     Delphi 2005                      VCLVersion="9"
-rem     Delphi 7                         VCLVersion="7"	Path="Borland\Delphi7"
+rem     RAD Studio RX11   (Delphi RX11)     VCLVersion=28	Path="Studio\22.0"
+rem     RAD Studio RX10.4 (Delphi RX10.4)   VCLVersion=27	Path="Studio\21.0"
+rem     RAD Studio RX10.3 (Delphi RX10.3)   VCLVersion=26	Path="Studio\20.0"
+rem     RAD Studio RX10.2 (Delphi RX10.2)   VCLVersion=25	Path="Studio\19.0"
+rem     RAD Studio RX10.1 (Delphi RX10.1)   VCLVersion=24	Path="Studio\18.0"
+rem     RAD Studio RX10   (Delphi RX10)     VCLVersion=23	Path="Studio\17.0"
+rem     RAD Studio XE8    (Delphi XE8)      VCLVersion=22	Path="Studio\16.0"
+rem     RAD Studio XE7    (Delphi XE7)      VCLVersion=21	Path="Studio\15.0"
+rem     RAD Studio XE6    (Delphi XE6)      VCLVersion=20	Path="Studio\14.0"
+rem     RAD Studio XE5    (Delphi XE5)      VCLVersion=19	Path="RAD Studio\12.0"
+rem     RAD Studio XE4    (Delphi XE4)      VCLVersion=18	Path="RAD Studio\11.0"
+rem     RAD Studio XE3    (Delphi XE3)      VCLVersion=17	Path="RAD Studio\10.0"
+rem     RAD Studio XE2    (Delphi XE2)      VCLVersion=16	Path="RAD Studio\9.0"
+rem     RAD Studio XE     (Delphi XE)       VCLVersion=15	Path="RAD Studio\8.0"
+rem     RAD Studio 2010   (Delphi 2010)     VCLVersion=14	Path="RAD Studio\7.0"
+rem     RAD Studio 2009   (Delphi 2009)     VCLVersion=12	Path=""
+rem     RAD Studio 2007 	(Delphi 2007)    	VCLVersion=11   RS 2007 & BDS 2006 use same VCL
+rem     RAD Studio 2006 	(Delphi 2006)    	VCLVersion=10   RS 2007 & BDS 2006 use same VCL
+rem     BDS 2006                         		VCLVersion=10
+rem     Delphi 2005                      		VCLVersion=9
+rem     Delphi 7                         		VCLVersion=7	Path="Borland\Delphi7"
 
-set VCLVersion="26"
+set VCLVersion=28
 
-if %VCLVersion% == "7" set ProgPath=Borland\Delphi7
-if %VCLVersion% == "9" set ProgPath=Borland\Delphi2005
-if %VCLVersion% == "10" set ProgPath=Borland\Delphi2006
-if %VCLVersion% == "12" set ProgPath=Embarcadero\
-if %VCLVersion% == "14" set ProgPath=Embarcadero\RAD Studio\7.0
-if %VCLVersion% == "15" set ProgPath=Embarcadero\RAD Studio\8.0
-if %VCLVersion% == "16" set ProgPath=Embarcadero\RAD Studio\9.0
-if %VCLVersion% == "17" set ProgPath=Embarcadero\RAD Studio\10.0
-if %VCLVersion% == "18" set ProgPath=Embarcadero\RAD Studio\11.0
-if %VCLVersion% == "19" set ProgPath=Embarcadero\RAD Studio\12.0
-if %VCLVersion% == "20" set ProgPath=Embarcadero\Studio\14.0
-if %VCLVersion% == "21" set ProgPath=Embarcadero\Studio\15.0
-if %VCLVersion% == "22" set ProgPath=Embarcadero\Studio\16.0
-if %VCLVersion% == "23" set ProgPath=Embarcadero\Studio\17.0
-if %VCLVersion% == "24" set ProgPath=Embarcadero\Studio\18.0
-if %VCLVersion% == "25" set ProgPath=Embarcadero\Studio\19.0
-if %VCLVersion% == "26" set ProgPath=Embarcadero\Studio\20.0
+if %VCLVersion% == 7 set ProgPath=Borland\Delphi7
+if %VCLVersion% == 9 set ProgPath=Borland\Delphi2005
+if %VCLVersion% == 10 set ProgPath=Borland\Delphi2006
+if %VCLVersion% == 12 set ProgPath=Embarcadero\
+if %VCLVersion% == 14 set ProgPath=Embarcadero\RAD Studio\7.0
+if %VCLVersion% == 15 set ProgPath=Embarcadero\RAD Studio\8.0
+if %VCLVersion% == 16 set ProgPath=Embarcadero\RAD Studio\9.0
+if %VCLVersion% == 17 set ProgPath=Embarcadero\RAD Studio\10.0
+if %VCLVersion% == 18 set ProgPath=Embarcadero\RAD Studio\11.0
+if %VCLVersion% == 19 set ProgPath=Embarcadero\RAD Studio\12.0
+if %VCLVersion% == 20 set ProgPath=Embarcadero\Studio\14.0
+if %VCLVersion% == 21 set ProgPath=Embarcadero\Studio\15.0
+if %VCLVersion% == 22 set ProgPath=Embarcadero\Studio\16.0
+if %VCLVersion% == 23 set ProgPath=Embarcadero\Studio\17.0
+if %VCLVersion% == 24 set ProgPath=Embarcadero\Studio\18.0
+if %VCLVersion% == 25 set ProgPath=Embarcadero\Studio\19.0
+if %VCLVersion% == 26 set ProgPath=Embarcadero\Studio\20.0
+if %VCLVersion% == 27 set ProgPath=Embarcadero\Studio\21.0
+if %VCLVersion% == 28 set ProgPath=Embarcadero\Studio\22.0
 
 rem     Set the DCC32EXE variable to the full path of the 32-bit command line
 rem     compiler (DCC32.exe) located in your Delphi/RAD Studio Bin directory.
@@ -119,24 +123,29 @@ rem ****************************************************************************
 rem **** DO NOT CHANGE ANYTHING BELOW THIS POINT *******************************
 rem ****************************************************************************
 
-if %VCLVersion% == "7" goto Version7
-if %VCLVersion% == "9" goto Version9
-if %VCLVersion% == "10" goto Version10
+rem Enter the current directory in administrator mode
+cd /d %~dp0
 
-if %VCLVersion% == "12" goto Version12
-if %VCLVersion% == "14" goto Version14
-if %VCLVersion% == "15" goto Version15
-if %VCLVersion% == "16" goto Version16
-if %VCLVersion% == "17" goto Version17
-if %VCLVersion% == "18" goto Version18
-if %VCLVersion% == "19" goto Version19
-if %VCLVersion% == "20" goto Version20
-if %VCLVersion% == "21" goto Version21
-if %VCLVersion% == "22" goto Version22
-if %VCLVersion% == "23" goto Version23
-if %VCLVersion% == "24" goto Version24
-if %VCLVersion% == "25" goto Version25
-if %VCLVersion% == "26" goto Version26
+if %VCLVersion% == 7 goto Version7
+if %VCLVersion% == 9 goto Version9
+if %VCLVersion% == 10 goto Version10
+
+if %VCLVersion% == 12 goto Version12
+if %VCLVersion% == 14 goto Version14
+if %VCLVersion% == 15 goto Version15
+if %VCLVersion% == 16 goto Version16
+if %VCLVersion% == 17 goto Version17
+if %VCLVersion% == 18 goto Version18
+if %VCLVersion% == 19 goto Version19
+if %VCLVersion% == 20 goto Version20
+if %VCLVersion% == 21 goto Version21
+if %VCLVersion% == 22 goto Version22
+if %VCLVersion% == 23 goto Version23
+if %VCLVersion% == 24 goto Version24
+if %VCLVersion% == 25 goto Version25
+if %VCLVersion% == 26 goto Version26
+if %VCLVersion% == 27 goto Version27
+if %VCLVersion% == 28 goto Version28
 echo Invalid VCL Version %VCLVersion%
 goto Error
 
@@ -369,29 +378,44 @@ set LibDir64=RX10.3\Win64
 set Compile64bit=True
 set UnitScopeNames=-NSSystem;System.Win;Winapi;Vcl;Vcl.Imaging;Data;
 
+rem ============================================================================
+:Version27
+
+set IDE_Name=RAD Studio RX10.4
+set PkgSuffix=270
+
+set LibDir32=RX10.4\Win32
+set LibDir64=RX10.4\Win64
+set Compile64bit=True
+set UnitScopeNames=-NSSystem;System.Win;Winapi;Vcl;Vcl.Imaging;Data;
+
+rem ============================================================================
+:Version28
+
+set IDE_Name=RAD Studio RX11
+set PkgSuffix=280
+
+set LibDir32=RX11\Win32
+set LibDir64=RX11\Win64
+set Compile64bit=True
+set UnitScopeNames=-NSSystem;System.Win;Winapi;Vcl;Vcl.Imaging;Data;
+
 goto Init
 
 rem ============================================================================
 :Init
 
 set Options=-LUDclStd
-rem set DBOptions=-LUDclDB
 
 set DCC32=%DCC32EXE% -Q -W -H %UnitScopeNames% -$D- -$L- -$Y-
 set DCC64=%DCC64EXE% -Q -W -H %UnitScopeNames% -$D- -$L- -$Y-
 
 set ND_RTP=XZYComm
 set ND_RTP_BPL=XZYComm%PkgSuffix%.bpl
-rem set DB_RTP=RaizeComponentsVclDb
-rem set DB_RTP_BPL=RaizeComponentsVclDb%PkgSuffix%.bpl
-rem set ND_DP=RaizeComponentsVcl_Design
-rem set ND_DP_BPL=RaizeComponentsVcl_Design%PkgSuffix%.bpl
-rem set DB_DP=RaizeComponentsVclDb_Design
-rem set DB_DP_BPL=RaizeComponentsVclDb_Design%PkgSuffix%.bpl
 
 
 set ND_RegFile=XZYComm.pas
-rem set DB_RegFile=RaizeComponentsVclDb_Reg.pas
+
 
 rem ============================================================================
 :PathSetup
@@ -447,7 +471,7 @@ echo.
 echo Copying Build Files to %LibPath32% and %DeployPath32% ...
 
 copy "*.dcu" %LibPath32% > nul
-copy "*.dfm" %LibPath32% > nul
+copy "*.dcr" %LibPath32% > nul
 copy "*.res" %LibPath32% > nul
 copy "*.hpp" %LibPath32% > nul
 copy "*.lib" %LibPath32% > nul
@@ -491,7 +515,7 @@ echo.
 echo Copying Build Files to %LibPath64%...
 
 copy "*.dcu" %LibPath64% > nul
-copy "*.dfm" %LibPath64% > nul
+copy "*.dcr" %LibPath64% > nul
 copy "*.res" %LibPath64% > nul
 
 if %VCLVersion% LEQ 16 goto SkipCopy64bitHppAFiles

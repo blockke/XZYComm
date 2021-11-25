@@ -1,7 +1,7 @@
 ﻿{$I XZYComm.inc}
 // XueZiYing
 //
-// 15/06/2020
+// 17/11/2022
 //
 // 串口通讯组件修改自 小猪工作室 Small-Pig Team （中国台湾）的SPCOMM V2.5 串口通讯组件
 //
@@ -61,6 +61,10 @@
 // so it can be checked in applicaiton.
 // Version 3.1		2020/6/17
 // - Add new property Connected;
+// - 兼容Delphi XE以上版本，Char改为AnsiChar
+// Version 3.3		2022/11/17
+// - 兼容Delphi 11
+
 
 unit XZYComm;
 
@@ -76,7 +80,7 @@ const
   PWM_REQUESTHANGUP = WM_USER + 3;
   PWM_MODEMSTATECHANGE = WM_USER + 4;
   PWM_SENDDATAEMPTY = WM_USER + 5;
-  XZY_COMPONENT_VERSION = 'v3.10 2020.6.16';
+  XZY_COMPONENT_VERSION = 'v3.30 2022.11.17';
   XZY_AUTHOR = AnsiString('薛自影');
   XZY_CONTACT = 'XueZiYing@sina.com QQ:22236263';
 
@@ -114,14 +118,12 @@ type
     hComm32Window: THandle;
 
     function SetupCommEvent(lpOverlappedCommEvent: POverlapped; var lpfdwEvtMask: DWORD): Boolean;
-    function SetupReadEvent(lpOverlappedRead: POverlapped;
-                              lpszInputBuffer: LPSTR; dwSizeofBuffer: DWORD;
-                              var lpnNumberOfBytesRead: DWORD): Boolean;
-    function HandleCommEvent(lpOverlappedCommEvent: POverlapped;
-                              var lpfdwEvtMask: DWORD; fRetrieveEvent: Boolean): Boolean;
-    function HandleReadEvent(lpOverlappedRead: POverlapped;
-                              lpszInputBuffer: LPSTR; dwSizeofBuffer: DWORD;
-                              var lpnNumberOfBytesRead: DWORD): Boolean;
+    function SetupReadEvent(lpOverlappedRead: POverlapped; lpszInputBuffer: LPSTR; dwSizeofBuffer: DWORD;
+      var lpnNumberOfBytesRead: DWORD): Boolean;
+    function HandleCommEvent(lpOverlappedCommEvent: POverlapped; var lpfdwEvtMask: DWORD;
+      fRetrieveEvent: Boolean): Boolean;
+    function HandleReadEvent(lpOverlappedRead: POverlapped; lpszInputBuffer: LPSTR; dwSizeofBuffer: DWORD;
+      var lpnNumberOfBytesRead: DWORD): Boolean;
     function HandleReadData(lpszInputBuffer: LPCSTR; dwSizeofBuffer: DWORD): Boolean;
     function ReceiveData(lpNewString: LPSTR; dwSizeofNewString: DWORD): BOOL;
     function ReceiveError(EvtMask: DWORD): BOOL;
@@ -657,14 +659,14 @@ end; { TXZYComm.StopComm }
 function TXZYComm.WriteCommData(pDataToWrite: PAnsiChar; dwSizeofDataToWrite: Word): Boolean;
 var
   Buffer: Pointer;
-  S:Ansistring;
+  S: string;
 begin
   if (WriteThread <> nil) and (dwSizeofDataToWrite <> 0) then
   begin
-    Buffer := Pointer(LocalAlloc(LPTR, dwSizeofDataToWrite +1));
+    Buffer := Pointer(LocalAlloc(LPTR, dwSizeofDataToWrite + 1));
     Move(pDataToWrite^, Buffer^, dwSizeofDataToWrite);
-   // SetLength(s,dwSizeofDataToWrite);
-   // Move(pDataToWrite^,s[1],dwSizeofDataToWrite);
+    SetLength(S, dwSizeofDataToWrite);
+    Move(pDataToWrite^, S[1], dwSizeofDataToWrite);
 
     FSendDataEmpty := FALSE;
     if PostThreadMessage(WriteThread.ThreadID, PWM_COMMWRITE, WPARAM(dwSizeofDataToWrite), LPARAM(Buffer)) then
@@ -1406,7 +1408,7 @@ end;
 
 procedure TReadThread.Execute;
 var
- // szInputBuffer: array [0 .. INPUTBUFFERSIZE - 1] of Char;
+  // szInputBuffer: array [0 .. INPUTBUFFERSIZE - 1] of Char;
   szInputBuffer: array of Char;
   nNumberOfBytesRead: DWORD;
 
@@ -1422,8 +1424,8 @@ var
 label
   EndReadThread;
 begin
-   SetLength(szInputBuffer, INPUTBUFFERSIZE);//新方法数组大小可变
-   FillChar(overlappedRead, Sizeof(overlappedRead), 0);
+  SetLength(szInputBuffer, INPUTBUFFERSIZE); // 新方法数组大小可变
+  FillChar(overlappedRead, Sizeof(overlappedRead), 0);
   FillChar(overlappedCommEvent, Sizeof(overlappedCommEvent), 0);
 
   // Lets put an event in the Read overlapped structure.
@@ -1462,7 +1464,7 @@ begin
     goto EndReadThread;
 
   // Start waiting for Read events.
-  if not SetupReadEvent(@overlappedRead, PAnsichar(szInputBuffer), INPUTBUFFERSIZE,
+  if not SetupReadEvent(@overlappedRead, PAnsiChar(szInputBuffer), INPUTBUFFERSIZE,
     // @szInputBuffer, INPUTBUFFERSIZE,
     nNumberOfBytesRead) then
     goto EndReadThread;
@@ -1496,17 +1498,14 @@ begin
       WAIT_OBJECT_0 + 2: // Read Event signaled.
         begin
           // Get the new data!
-          if not HandleReadEvent(@overlappedRead,
-                                  PAnsichar(szInputBuffer),   // @szInputBuffer,
-                                  INPUTBUFFERSIZE, nNumberOfBytesRead) then
+          if not HandleReadEvent(@overlappedRead, PAnsiChar(szInputBuffer), // @szInputBuffer,
+            INPUTBUFFERSIZE, nNumberOfBytesRead) then
             goto EndReadThread;
 
           // Wait for more new data.
-          if not SetupReadEvent(@overlappedRead,
-                                PAnsichar(szInputBuffer),
-                                INPUTBUFFERSIZE,
-                                      // @szInputBuffer, INPUTBUFFERSIZE,
-                                nNumberOfBytesRead) then
+          if not SetupReadEvent(@overlappedRead, PAnsiChar(szInputBuffer), INPUTBUFFERSIZE,
+            // @szInputBuffer, INPUTBUFFERSIZE,
+            nNumberOfBytesRead) then
             goto EndReadThread
             { break; }
         end;
