@@ -839,7 +839,7 @@
 
 // VER350 (RAD Studio 11 Alexandria)
 
-{$IFDEF VER340}
+{$IFDEF VER350}
   {$UNDEF VER_UNKNOWN}
   {$DEFINE VCL280}
   {$DEFINE RX11}
@@ -892,7 +892,7 @@
 
 {$ENDIF}
 
-// If compiler version is unknown, assume to be VER330
+// If compiler version is unknown, assume to be VER350
 
 {$IFDEF VER_UNKNOWN}
   {$UNDEF VER_UNKNOWN}
