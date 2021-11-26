@@ -34,5 +34,5 @@ The latest version V3.3 supports delphi11
   - Version 3.1 2020/6/17
     > Add new property Connected;
     > Compatible with Delphi XE and above, Char changed to AnsiChar
-  - Version 3.3 2022/11/17
+  - Version 3.3 2021/11/17
     > Compatible with Delphi 11
