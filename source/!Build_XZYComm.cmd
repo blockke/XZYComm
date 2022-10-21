@@ -1,4 +1,25 @@
 @echo off
+set /a _Debug=0
+::==========================================
+:: Get Administrator Rights
+set _Args=%*
+if "%~1" NEQ "" (
+  set _Args=%_Args:"=%
+)
+fltmc 1>nul 2>nul || (
+  cd /d "%~dp0"
+  cmd /u /c echo Set UAC = CreateObject^("Shell.Application"^) : UAC.ShellExecute "cmd.exe", "/k cd ""%~dp0"" && ""%~dpnx0"" ""%_Args%""", "", "runas", 1 > "%temp%\GetAdmin.vbs"
+  "%temp%\GetAdmin.vbs"
+  del /f /q "%temp%\GetAdmin.vbs" 1>nul 2>nul
+  exit
+)
+::==========================================
+@shift /0
+CLS
+
+@COLOR b
+@echo off
+chcp 65001 >nul
 echo ***************************************************
 echo Building XzyComm Components 3
 echo ***************************************************
@@ -11,7 +32,7 @@ rem     DO NOT MOVE THIS FILE!
 rem     THIS COMMAND FILE MUST BE LOCATED IN THE SOURCE DIRECTORY FOR YOUR
 rem     INSTALLATION OF XZYComm COMPONENTS 3.
 rem
-rem     e.g. C:\Program Files\XzyComm\XC3\Source
+rem     e.g. C:\Program Files (x86)\Embarcadero\Studio\22.0\ThirdParty\XzyComm\Source
                          
 
 rem     ALL APPLICATIONS THAT USE THE  XZYComm COMPONENTS 3 RUNTIME PACKAGES
@@ -21,33 +42,41 @@ rem     THE COMPONENTS.
 
 rem ****************************************************************************
 rem **** SET CONFIGURATION VARIABLES *******************************************
+rem **** 设置配置变量 *********************************************************
 rem ****************************************************************************
 
 rem     Uncomment the following goto statement after you have initialized the
 rem     Configuration Variables.
-
- goto InitComplete
+rem 	在你初始化了配置变量后，取消对以下goto语句的注释。
+rem
+goto InitComplete
 
 echo.
 echo Build Configuration Variables have not been initialized.  
+echo. 该文件没有进行初始化修改，请打开文件，按说明进行修改
 echo.
 echo Before you can execute this command file to rebuild XzyComm Components 3,
 echo you must initialize a few configuration variables.  Simply edit the
 echo !Build_XzyComm3.cmd file with a text editor and follow the instructions in the
-echo SET CONFIGURATION VARIABLES section. Also, please read the IMPORTANT NOTES
-echo section.
+echo SET CONFIGURATION VARIABLES section. 
 echo.
 echo Once the configuration variables have been initialized and the
 echo !Build_XzyComm3.cmd saved, you can simply run !Build_XzyComm3.cmd file to rebuild
 echo xzyComm Components 3.3
 echo.
-echo IMPORTANT: It is recommended that you run this file as an administrator.
+echo 在你执行这个命令文件来重建XzyComm Components 3,
+echo 你必须初始化一些配置变量。 只要用文本编辑器编辑
+echo !"Build_XzyComm3.cmd "文件，并按照设置配置变量一节的说明操作。
+echo.
+echo 一旦配置变量被初始化并且!Build_XzyComm3.cmd保存后，你可以简单地
+echo 运行!Build_XzyComm3.cmd文件来重新构建 xzyComm Components 3.3
+echo 重建后，在Delphi环境中设置好源路径，然后加载控件 Compoent->install Packages->Add...
+echo 选择出编译好的，在Delphi系统Bin目录中的 XZYComm???.bpl 即可完成控件的加载。
 echo.
 pause
 exit
 
 :InitComplete
-
 
 
 rem     Set the SysPath32 variable to the path of your Windows System folder
@@ -57,11 +86,16 @@ rem     32-bit Windows    Usually C:\Windows\System32
 rem
 rem     64-bit Windows    Usually C:\Windows\SysWOW64
 
-set SysPath32="C:\Windows\SysWOW64"
+set SysPath32=C:\Windows\SysWOW64
 
+rem 	Set DelphiPath variable to the path of your Delphi System folder
+set DelphiPath=C:\Program Files (x86)
+
+set SysPath64=C:\Windows\System32
 
 rem     Set VCLVersion to match version of Delphi/RAD Studio you are using:
-rem
+rem     设置VCLVersion为正确的版本，请对应你的Delphi版本
+rem 
 rem     RAD Studio RX11   (Delphi RX11)     VCLVersion=28	Path="Studio\22.0"
 rem     RAD Studio RX10.4 (Delphi RX10.4)   VCLVersion=27	Path="Studio\21.0"
 rem     RAD Studio RX10.3 (Delphi RX10.3)   VCLVersion=26	Path="Studio\20.0"
@@ -110,18 +144,22 @@ rem     Set the DCC32EXE variable to the full path of the 32-bit command line
 rem     compiler (DCC32.exe) located in your Delphi/RAD Studio Bin directory.
 
 rem set DCC32EXE="C:\Program Files (x86)\Embarcadero\Studio\15.0\Bin\DCC32.exe"
-set DCC32EXE="C:\Program Files (x86)\%ProgPath%\Bin\DCC32.exe"
+set DCC32EXE="%DelphiPath%\%ProgPath%\Bin\DCC32.exe"
 
 rem     If you are using RAD Studio XE2 or greater, set the DCC64EXE 
 rem     variable to the full path of the 64-bit command line compiler 
 rem     (DCC64.exe) located in your RAD Studio Bin directory.
 
 rem set DCC64EXE="C:\Program Files (x86)\Embarcadero\Studio\15.0\Bin\DCC64.exe"
-set DCC64EXE="C:\Program Files (x86)\%ProgPath%\Bin\DCC64.exe"
+set DCC64EXE="%DelphiPath%\%ProgPath%\Bin\DCC64.exe"
 
 rem ****************************************************************************
 rem **** DO NOT CHANGE ANYTHING BELOW THIS POINT *******************************
 rem ****************************************************************************
+rem 下面的代码都不要轻易修改
+
+net session >nul 2>&1
+if errorlevel 1 goto Adminerror
 
 rem Enter the current directory in administrator mode
 cd /d %~dp0
@@ -378,6 +416,8 @@ set LibDir64=RX10.3\Win64
 set Compile64bit=True
 set UnitScopeNames=-NSSystem;System.Win;Winapi;Vcl;Vcl.Imaging;Data;
 
+goto Init
+
 rem ============================================================================
 :Version27
 
@@ -388,6 +428,8 @@ set LibDir32=RX10.4\Win32
 set LibDir64=RX10.4\Win64
 set Compile64bit=True
 set UnitScopeNames=-NSSystem;System.Win;Winapi;Vcl;Vcl.Imaging;Data;
+
+goto Init
 
 rem ============================================================================
 :Version28
@@ -423,6 +465,7 @@ rem ============================================================================
 set LibPath32=..\Lib\%LibDir32%
 set LibPath64=..\Lib\%LibDir64%
 set BinPath=..\Bin
+set ProgBinPath="%DelphiPath%\%ProgPath%\Bin"
 set DeployPath32=..\Deploy\Win32
 set DeployPath64=..\Deploy\Win64
 
@@ -468,7 +511,7 @@ del %ND_RTP%.dcu > nul
 
 
 echo.
-echo Copying Build Files to %LibPath32% and %DeployPath32% ...
+echo Copying Build Files to %LibPath32% and %DeployPath32% ,%SysPath32%,%BinPath% ,%ProgBinPath% ...
 
 copy "*.dcu" %LibPath32% > nul
 copy "*.dcr" %LibPath32% > nul
@@ -482,6 +525,7 @@ copy %ND_RTP%.hpp %LibPath32% > nul
 copy %ND_RTP_BPL% %DeployPath32% > nul
 copy %ND_RTP_BPL% %SysPath32% > nul
 copy %ND_RTP_BPL% %BinPath% > nul
+copy %ND_RTP_BPL% %ProgBinPath% > nul
 
 
 if "%Compile64bit%" == "False" goto SkipCompile64bit
@@ -506,13 +550,13 @@ echo.
 echo.
 if %VCLVersion% GEQ 16 goto SkipDeleting64bitPkgDcus
 echo Deleting Unnecessary Package DCU files...
-del %ND_RTP%.dcu > nul
+del %ND_RTP%.dcu > nul 2>nul
 
 :SkipDeleting64bitPkgDcus
 
 
 echo.
-echo Copying Build Files to %LibPath64%...
+echo Copying Build Files to %LibPath64% and %DeployPath64% ,%SysPath64% ...
 
 copy "*.dcu" %LibPath64% > nul
 copy "*.dcr" %LibPath64% > nul
@@ -528,6 +572,7 @@ copy %ND_RTP%.dcp %LibPath64% > nul
 copy %ND_RTP%.bpi %LibPath64% > nul
 copy %ND_RTP%.hpp %LibPath64% > nul
 copy %ND_RTP_BPL% %DeployPath64% > nul
+copy %ND_RTP_BPL% %SysPath64% > nul
 
 :SkipCompile64bit
 
@@ -541,6 +586,9 @@ echo.
 echo Build was Successful.
 goto end
 
+:Adminerror
+echo.
+echo ERROR: Please run !Build_XZYComm.cmd in Administrator mode!
 
 rem ============================================================================
 :error
@@ -549,12 +597,13 @@ echo **ERROR**
 
 rem ============================================================================
 :end
-del *.dcu > nul
-del *.lib > nul
-del *.hpp > nul
-del *.bpi > nul
-del *.a > nul
-del *.bpl > nul
-del *.dcp > nul
+del *.dcu > nul 2>nul
+del *.lib > nul 2>nul
+del *.hpp > nul 2>nul
+del *.bpi > nul 2>nul
+del *.a > nul 2>nul
+del *.bpl > nul 2>nul
+del *.dcp > nul 2>nul
 
 pause
+exit
