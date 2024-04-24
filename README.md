@@ -6,12 +6,13 @@ Serial communication control for delphi
 #### Software Architecture
 The serial communication component is modified from the SPCOMM serial communication component of Small-Pig Team (China Taiwan)
 
-The latest version V3.3 supports delphi11
+The latest version V3.3 supports delphi11，Delphi12
 
 #### Installation
 
 1. Configure XZYComm.inc to adapt to the delphi version
-2. Run !Build_XZYComm.cmd to compile
+2. Depending on the compiled version, modify! AdminBuild_XZYComm.cmd line 108 in the file "set VCLVersion=29"
+2. Run !AdminBuild_XZYComm.cmd to compile
 3. Start delphi and mount the compiled bpl file
 
 #### Version

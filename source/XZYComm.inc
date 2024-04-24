@@ -34,6 +34,7 @@
   VCL260                VCL version 26.0 (Delphi 26.0 - a.k.a. Delphi RX10.3)
   VCL270                VCL version 27.0 (Delphi 27.0 - a.k.a. Delphi RX10.4)
   VCL280                VCL version 28.0 (Delphi 28.0 - a.k.a. Delphi RX11)
+  VCL290                VCL version 29.0 (Delphi 29.0 - a.k.a. Delphi RX12)
 
   VCL50_OR_HIGHER       VCL version 5.0 or higher
   VCL60_OR_HIGHER       VCL version 6.0 or higher
@@ -59,6 +60,7 @@
   VCL260_OR_HIGHER      VCL version 26.0 or higher
   VCL270_OR_HIGHER      VCL version 27.0 or higher
   VCL280_OR_HIGHER      VCL version 28.0 or higher
+  VCL290_OR_HIGHER      VCL version 29.0 or higher
 
 
   DELPHI5               Delphi 5
@@ -67,6 +69,8 @@
   DELPHI8               Delphi 8
   DELPHI9               Delphi 9
   DELPHI10              Delphi 10
+  DELPHI11              Delphi 11
+  DELPHI12              Delphi 12
   
   RS2009                RAD Studio 6
   RS2010                RAD Studio 7
@@ -84,6 +88,7 @@
   RX103                 RAD Studio 20
   RX104                 RAD Studio 21
   RX11                  RAD Studio 22
+  RX12                  RAD Studio 23
 
   D5_OR_HIGHER          Delphi 5 or higher
   D6_OR_HIGHER          Delphi 6 or higher
@@ -92,6 +97,7 @@
   D9_OR_HIGHER          Delphi 9 or higher
   D10_OR_HIGHER         Delphi 10 or higher
   D11_OR_HIGHER         Delphi 11 or higher
+  D12_OR_HIGHER         Delphi 12 or higher
 
   RS2009_OR_HIGHER      RAD Studio 6 or higher
   RS2010_OR_HIGHER      RAD Studio 7 or higher
@@ -109,6 +115,31 @@
   RX103_OR_HIGHER       RAD Studio 20 or higher
   RX104_OR_HIGHER       RAD Studio 21 or higher
   RX11_OR_HIGHER        RAD Studio 22 or higher
+  RX12_OR_HIGHER        RAD Studio 23 or higher
+
+VER140 (Delphi 6 & C++Builder 6 & Kylix 1)
+VER150 (Delphi 7)
+VER160 (Delphi 8)
+VER170 (Delphi 2005)
+VER180 (Delphi 2006) and VER185 (Delphi 2007)
+VER200 (RAD Studio 2009)
+VER210 (RAD Studio 2010)
+VER220 (RAD Studio XE)
+VER230 (RAD Studio XE2)
+VER240 (RAD Studio XE3)
+VER250 (RAD Studio XE4)
+VER260 (RAD Studio XE5)
+VER270 (RAD Studio XE6)
+VER280 (RAD Studio XE7)
+VER290 (RAD Studio XE8)
+VER300 (RAD Studio 10 Seattle)
+VER310 (RAD Studio 10.1 Berlin)
+VER320 (RAD Studio 10.2 Tokyo)
+VER330 (RAD Studio 10.3 Rido)
+VER340 (RAD Studio 10.4 Sydney)
+VER350 (RAD Studio 11 Alexandria)
+VER360 (RAD Studio 12 Athens)
+
 
 ===============================================================================}
 
@@ -872,7 +903,6 @@
   {$DEFINE D7_OR_HIGHER}
   {$DEFINE D8_OR_HIGHER}
   {$DEFINE D9_OR_HIGHER}
-  {$DEFINE D10_OR_HIGHER}
   {$DEFINE RS2009_OR_HIGHER}
   {$DEFINE RS2010_OR_HIGHER}
   {$DEFINE RSXE_OR_HIGHER}
@@ -892,12 +922,12 @@
 
 {$ENDIF}
 
-// If compiler version is unknown, assume to be VER350
+// VER360 (RAD Studio 12 Athens)
 
-{$IFDEF VER_UNKNOWN}
+{$IFDEF VER360}
   {$UNDEF VER_UNKNOWN}
-  {$DEFINE VCL280}
-  {$DEFINE RX11}
+  {$DEFINE VCL290}
+  {$DEFINE RX12}
 
   {$DEFINE VCL50_OR_HIGHER}
   {$DEFINE VCL60_OR_HIGHER}
@@ -921,6 +951,7 @@
   {$DEFINE VCL260_OR_HIGHER}
   {$DEFINE VCL270_OR_HIGHER}
   {$DEFINE VCL280_OR_HIGHER}
+  {$DEFINE VCL290_OR_HIGHER}
 
   {$DEFINE D5_OR_HIGHER}
   {$DEFINE D6_OR_HIGHER}
@@ -944,6 +975,64 @@
   {$DEFINE RX103_OR_HIGHER}
   {$DEFINE RX104_OR_HIGHER}
   {$DEFINE RX11_OR_HIGHER}
+  {$DEFINE RX12_OR_HIGHER}
+
+{$ENDIF}
+
+// If compiler version is unknown, assume to be VER360
+
+{$IFDEF VER_UNKNOWN}
+  {$UNDEF VER_UNKNOWN}
+  {$DEFINE VCL290}
+  {$DEFINE RX12}
+
+  {$DEFINE VCL50_OR_HIGHER}
+  {$DEFINE VCL60_OR_HIGHER}
+  {$DEFINE VCL70_OR_HIGHER}
+  {$DEFINE VCL80_OR_HIGHER}
+  {$DEFINE VCL90_OR_HIGHER}
+  {$DEFINE VCL100_OR_HIGHER}
+  {$DEFINE VCL120_OR_HIGHER}
+  {$DEFINE VCL140_OR_HIGHER}
+  {$DEFINE VCL150_OR_HIGHER}
+  {$DEFINE VCL160_OR_HIGHER}
+  {$DEFINE VCL170_OR_HIGHER}
+  {$DEFINE VCL180_OR_HIGHER}
+  {$DEFINE VCL190_OR_HIGHER}
+  {$DEFINE VCL200_OR_HIGHER}
+  {$DEFINE VCL210_OR_HIGHER}
+  {$DEFINE VCL220_OR_HIGHER}
+  {$DEFINE VCL230_OR_HIGHER}
+  {$DEFINE VCL240_OR_HIGHER}
+  {$DEFINE VCL250_OR_HIGHER}
+  {$DEFINE VCL260_OR_HIGHER}
+  {$DEFINE VCL270_OR_HIGHER}
+  {$DEFINE VCL280_OR_HIGHER}
+  {$DEFINE VCL290_OR_HIGHER}
+
+  {$DEFINE D5_OR_HIGHER}
+  {$DEFINE D6_OR_HIGHER}
+  {$DEFINE D7_OR_HIGHER}
+  {$DEFINE D8_OR_HIGHER}
+  {$DEFINE D9_OR_HIGHER}
+  {$DEFINE D10_OR_HIGHER}
+  {$DEFINE RS2009_OR_HIGHER}
+  {$DEFINE RS2010_OR_HIGHER}
+  {$DEFINE RSXE_OR_HIGHER}
+  {$DEFINE RSXE2_OR_HIGHER}
+  {$DEFINE RSXE3_OR_HIGHER}
+  {$DEFINE RSXE4_OR_HIGHER}
+  {$DEFINE RSXE5_OR_HIGHER}
+  {$DEFINE RSXE6_OR_HIGHER}
+  {$DEFINE RSXE7_OR_HIGHER}
+  {$DEFINE RSXE8_OR_HIGHER}
+  {$DEFINE RX10_OR_HIGHER}
+  {$DEFINE RX101_OR_HIGHER}
+  {$DEFINE RX102_OR_HIGHER}
+  {$DEFINE RX103_OR_HIGHER}
+  {$DEFINE RX104_OR_HIGHER}
+  {$DEFINE RX11_OR_HIGHER}
+  {$DEFINE RX12_OR_HIGHER}
 {$ENDIF}
 
 
